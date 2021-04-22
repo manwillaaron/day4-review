@@ -1,25 +1,42 @@
-import logo from './logo.svg';
+import {Component} from 'react';
 import './App.css';
+import NewTask from './components/NewTasks';
+import TodoList from './components/TodoList';
 
-function App() {
+class App extends Component{
+  constructor(){
+    super()
+    this.state = {
+      list:[]
+    }
+    this.submit = this.submit.bind(this)
+    this.deleteFn = this.deleteFn.bind(this)
+  }
+
+  submit(listItem){
+    this.setState({
+      list:[...this.state.list, listItem]
+    })
+  }
+
+  deleteFn(i){
+    const {list} = this.state
+    const arr = list.slice()
+    arr.splice(i,1)
+    this.setState({
+      list: arr
+    })
+  }
+
+render(){
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <NewTask submit={this.submit}/>
+    <TodoList deleteFn={this.deleteFn} list={this.state.list}/>
     </div>
   );
+}
 }
 
 export default App;
